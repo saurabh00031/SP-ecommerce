@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Mobiles{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+
+  <div class="col-sm-3">
+ <div class="list-group">
+ <a href="{% url 'mobile' %}" class ="list-group-item list-group-item-action" aria-current="true">All Mobile</a>
+ <a href="{% url 'mobiledata' 'samsung' %}" class="list-group-item list-group-item-action" aria-current="true">Samsung</a>
+ <a href="{% url 'mobiledata' 'apple' %}" class="list-group-item list-group-item-action" aria-current="true">apple</a>
+ <a href="{% url 'mobiledata' 'below' %}" class="list-group-item list-group-item-action" aria-current="true">below 10000</a>
+ <a href="{% url 'mobiledata' 'above' %}" class="list-group-item list-group-item-action" aria-current="true">above 10000</a>
+ 
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="col-sm-10 mt-5">
+<div class="row">
+{% for product in mobiles %}
+<div class="col-sm-5 col-sm-offset-2 text-center mb-5">
+<a href="{% url 'product-detail' product.id %}" class="btn">
+<div class="item" class="image-responsive">
+&nbsp;
+<img src="{{product.product_image.url}}" alt=""  class="image-responsive">
+<div class="fw-bold">{{product.title}}</div>
+<div class="fw-bold">Rs.{{product.discounted_price}}
+
+<small class="fw-light text-decoration-line-through">
+{{product.selling_price}}
+</small>
+
+</div>
+</div>
+</a>
+</div>
+{% endfor %}
+</div>
+</div>
+
+ </div>
+</div>
+{% endblock main-content %}
