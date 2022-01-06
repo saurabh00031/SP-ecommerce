@@ -7,35 +7,87 @@
   <div class="col-sm-6">
     <h4>here is your Order Summary</h4>
     <hr>
-      <div class="card mb-2">
+     {% for c in crt %}
+     <div class="card mb-2">
         <div class="card-body">
-          <h5>Product: Product 1</h5>
-          <p>Quantity: 2</p>
-          <p class="fw-bold">Price: 100.00</p>
+          <h5>Product: {{c.product.title}}</h5>
+          <p>Quantity: {{c.quantity}}</p>
+          <p class="fw-bold">Price: {{c.total_cost}}</p>
         </div>
       </div>
+      {% endfor %}
+      <p><strong>Total cost+Rs.100={{tt}}</strong></p>
     <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
   </div>
+
   <div class="col-sm-4 offset-sm-1">
     <h4>Select Shipping Address</h4>
     <hr>
-    <form action="">
+    <form action="/paymentdone">
+
+      {% for i in add %}
       <div class="card">
         <div class="card-body">
-        <h5>Sonam Kumari</h5>
-        <p>Hirapur Dhanbad Jharkahnd</p>
+        <h5>{{i.name}}</h5>
+        <p>{{i.locality}} , {{i.city}} , {{i.state}} -- {{i.zipcode}}</p>
         </div>
       </div>
         <div class="form-check mt-2 mb-5">
-          <input class="form-check-input" type="radio" value="">
-          <label class="form-check-label fw-bold" for="">
-            Address: 1 </label>
+          <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{i.id}}">
+          <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+            Address: {{forloop.counter}} </label>
         </div>
+        {% endfor %}
         <div class="text-end">
-          <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
+
+             <!-- Set up a container element for the button -->
+          <div id="paypal-button-container"></div>
+
+
+
+          {% comment %} <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button> {% endcomment %}
         </div>
       </form>
     </div>
   </div>
 </div>
 {% endblock main-content %}
+
+{% block payment-gate-way %}
+<script src="https://www.paypal.com/sdk/js?client-id=Af6gRS37aeX2uKr3dVQRj0fRL7qz6RImnBod70L4ip7JoqT7e3rVU3c85RZm_qv0ofIJ-1-qqio9fduZ&currency=USD"></script>
+
+<script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value:'{{tt}}'
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+                // Successful capture! For demo purposes:
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                var transaction = orderData.purchase_units[0].payments.captures[0];
+                alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                // Replace the above to show a success message within this page, e.g.
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '';
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script>
+{% endblock payment-gate-way %}

@@ -62,7 +62,9 @@ class Cart(models.Model):
     def __str__(self):
         return str(self.id) 
 
-
+    @property
+    def total_cost(self):
+        return self.quantity*self.product.discounted_price
 
 STATUS_CHOICES=(
 ('Accpetd','Accepted'),
@@ -70,7 +72,8 @@ STATUS_CHOICES=(
 ('On The Way','On The Way'),
 ('Delivered','Delivered'),
 ('Cancel','Cancel'),
-('Area Restriction','Area Restriction')
+('Area Restriction','Area Restriction'),
+('Pending','Pending')
 )
 
 class OrderPlaceinfo(models.Model):

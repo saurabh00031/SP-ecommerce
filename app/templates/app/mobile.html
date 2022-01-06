@@ -24,7 +24,10 @@
 <div class="col-sm-10 mt-5">
 <div class="row">
 {% for product in mobiles %}
-<div class="col-sm-5 col-sm-offset-2 text-center mb-5">
+<hr>
+<br>
+<br>
+<div class="col-sm-10 col-sm-offset-2 text-center mb-5">
 <a href="{% url 'product-detail' product.id %}" class="btn">
 <div class="item" class="image-responsive">
 &nbsp;
@@ -34,12 +37,16 @@
 
 <small class="fw-light text-decoration-line-through">
 {{product.selling_price}}
+<br>
+<br>
+
 </small>
 
 </div>
 </div>
 </a>
 </div>
+<br>
 {% endfor %}
 </div>
 </div>

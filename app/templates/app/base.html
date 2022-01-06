@@ -22,7 +22,7 @@
     <title>SSP Shopping site| {% block title %} {% endblock title %} </title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+    <nav class="navbar navbar-expand-lg navbar-dark pt-3 pb-3 bg-info">
      <div class="container">
        <a style =" color:grey;" class="navbar-brand" href="/"><b>SSP e-Commerce </b></a>
        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,30 +71,32 @@
           
            <li class="nav-item dropdown mx-2">
               <a class="nav-link dropdown-toggle text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                SAURABH
+                {{request.user}}
               </a>
               <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                 <li><a class="dropdown-item" href="{% url 'orders' %}">Orders</a></li>
-                <li><a class="dropdown-item" href="{% url 'changepassword' %}">Change Password</a></li>
-                <li><a class="dropdown-item" href="{% url 'login' %}">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
             </li>
-          
-            <li class="nav-item mx-2">
-             <a href="{% url 'add-to-cart' %}" class="nav-link text-white"><span class="badge bg-info">4</span> Cart </a>
+
+           {% if request.user.is_authenticated %}
+             <a href="{% url 'showcart' %}" class="nav-link text-white"><span class="badge bg-info"></span> Cart </a>
             </li>
-          
+            {% endif %}
+
             <li class="nav-item mx-2">
              <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
             </li>
             
-
+           {% if not request.user.is_authenticated %}
             
             <li class="nav-item mx-2">
              <a href="{% url 'customerregistration' %}" class="nav-link text-white">Registration</a>
             </li>
             
+            {% endif %}
 
           </ul>
   
@@ -110,6 +112,9 @@
     {% block banner_slider %} {% endblock banner_slider %}
     {% block livesale %} {% endblock livesale %}
     {% block main-content %} {% endblock main-content %}
+    {% block payment-gate-way %}
+    
+    {% endblock payment-gate-way %}
 
     <!-- Start Footer -->
     <footer class="container-fluid bg-dark text-center p-2 mt-5">

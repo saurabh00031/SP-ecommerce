@@ -1,0 +1,21 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+      <hr>
+ <center><h3>Cart is empty</h3></center>
+ <br>
+ <br>
+ <br>
+ <br>
+ <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-success">back to profile</a></li>
+ <br>
+ <br>
+ <hr>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

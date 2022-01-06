@@ -1,21 +1,39 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{% block title %}Buy Now{% endblock title %}
+{% block title %}Place Orders{% endblock title %}
 {% block main-content %}
 <div class="container my-5">
  <div class="row">
- <h3>Welcome Sonam</h3>
-  <div class="col-sm-2 border-end">
-   <ul class="list-unstyled">
-    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
-   </ul>
-  </div>
-  <div class="col-sm-9 offset-sm-1">
-   <div class="row">
-    <div class="col-sm-6">Order 1</div>
-    <div class="col-sm-6">Order 2</div>
+    <h3><center>Welcome {{request.user}}</center></h3>
+  <hr>
+  <hr>
+
+     {% for i in op %}
+ 
+ <div class="col-sm-3 text-center align-self-center"><img src="{{i.product.product_image.url}}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"> </div>
+ <div class="col-sm-9">
+  <div>
+   <h5>{{i.product.title}}</h5>
+   <div class="my-3">
+    <label for="quantity">Quantity:</label>
+      <span id="quantity">{{i.quantity}}</span>
+      <p class="mb-2 ">{{i.product.total_cost}}!</p>
+   </div> 
+   <div class="d-flex justify-content-between">
+    <p>Order Status :{{i.status}}</p>
+    
    </div>
   </div>
  </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <hr>
+      {% endfor %}
+</div>
 </div>
 {% endblock main-content %}
